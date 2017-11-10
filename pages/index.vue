@@ -1,8 +1,6 @@
 <template>
-	<div id="app">
-		<h1 class="xixi">
-			测试
-		</h1>
+	<div>
+		
 	</div>
 </template>
 
@@ -11,9 +9,5 @@ export default {};
 </script>
 
 <style scoped lang="scss">
-	#app {
-		.xixi {
-			color: red;
-		}
-	}
+
 </style>
