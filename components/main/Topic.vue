@@ -1,5 +1,7 @@
 <template>
-
+    <div class="content">
+        <div class="globalMessage hide"></div>
+    </div>
 </template>
 <script>
 export default {
