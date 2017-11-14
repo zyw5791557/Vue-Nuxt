@@ -5,9 +5,7 @@
                 <img src="~assets/images/logo.png" alt="logo" />
             </nuxt-link>
             <nav class="nc_clearfix">
-                <nuxt-link class="active" to="/">热门话题</nuxt-link>
-                <nuxt-link to="/news">科技动态</nuxt-link>
-                <nuxt-link to="/tech">开发者资讯</nuxt-link>
+                <nuxt-link v-for="(item,index) in routerLinkList" :key="index" :class="{ active: item.active }" :to="item.url">{{ item.title }}</nuxt-link>
             </nav>
             <div class="contact">
                 <a href="mailto:xiaomozyw@sina.com">联系我们</a>
@@ -24,22 +22,36 @@
 
 <script>
 export default {
-	data() {
-		return {
-			qr: false
-		};
-	},
-	methods: {
-		qrShow() {
-			this.qr = this.qr === true ? false : true;
-		}
-	},
-	mounted() {
-		var _this = this;
-		document.onclick = function() {
-			_this.qr = false;
-		}
-	}
+  data() {
+    return {
+      qr: false,
+      routerLinkList: [
+        {
+          title: "热门话题",
+          url: "/",
+        },
+        {
+          title: "科技动态",
+          url: "/news",
+        },
+        {
+          title: "开发者资讯",
+          url: "/tech",
+        }
+      ]
+    };
+  },
+  methods: {
+    qrShow() {
+      this.qr = this.qr === true ? false : true;
+    },
+  },
+  mounted() {
+    var _this = this;
+    document.onclick = function() {
+      _this.qr = false;
+    };
+  }
 };
 </script>
 
@@ -69,12 +81,12 @@ export default {
         text-decoration: none;
         font-size: 16px;
         margin-right: 40px;
-        color: #737373;
-        &.active,
+		color: #737373;
+		&.nuxt-link-exact-active.nuxt-link-active,
         &:hover {
           font-weight: 700;
           color: #246394;
-        }
+		}
       }
     }
     .contact {

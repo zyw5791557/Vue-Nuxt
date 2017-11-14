@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* global scss */
 body {
   font-size: 1.6rem;
@@ -237,6 +238,12 @@ a {
   padding: 0 !important;
 }
 
+.content {
+  max-width: 625px;
+  flex-shrink: 8;
+  width: 100%;
+}
+
 @media screen and (min-width: 769px) {
   .header-container .container {
     width: 718px;
@@ -262,4 +269,15 @@ a {
   .main {
     width: 960px;
   }
+}
+
+/* 过渡动效 */
+.page-enter-active,
+.page-leave-active {
+  transition: opacity .5s;
+}
+
+.page-enter,
+.page-leave-active {
+  opacity: 0;
 }
