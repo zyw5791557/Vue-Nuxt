@@ -19,13 +19,13 @@
                         </div>
                         <div class="ReactCollapse--collapse" style="overflow: hidden; height: 0px;">
                             <div class="ReactCollapse--content">
-                                <div class="main">
+                                <div class="itemMain">
                                     <div>
                                         <div class="articleItem first">
                                             <a class="articleTitle enableVisited" href="http://www.iyiou.com/p/59861" target="_blank">
                                             解放医生「双手」，医鸣数据完成近亿元 B 轮融资
                                             </a>
-                                            <div class="meta___1Lsmr">
+                                            <div class="meta">
                                                 <span>
                                                     <a class="" target="_blank" href="http://www.iyiou.com/p/59861">亿欧</a>
                                                 </span>
@@ -35,7 +35,7 @@
                                             <a class="articleTitle enableVisited" href="http://36kr.com/p/5102761.html" target="_blank">
                                                 医鸣数据获近亿元 B 轮融资，挖掘医疗大数据价值
                                             </a>
-                                            <div class="meta___1Lsmr">
+                                            <div class="meta">
                                                 <span>
                                                     <a class="" target="_blank" href="http://36kr.com/p/5102761.html">
                                                         36Kr
@@ -69,13 +69,13 @@
                         </div>
                         <div class="ReactCollapse--collapse" style="overflow: hidden; height: 0px;">
                             <div class="ReactCollapse--content">
-                                <div class="main">
+                                <div class="itemMain">
                                     <div>
                                         <div class="articleItem first">
                                             <a class="articleTitle enableVisited" href="http://www.iyiou.com/p/59861" target="_blank">
                                             解放医生「双手」，医鸣数据完成近亿元 B 轮融资
                                             </a>
-                                            <div class="meta___1Lsmr">
+                                            <div class="meta">
                                                 <span>
                                                     <a class="" target="_blank" href="http://www.iyiou.com/p/59861">亿欧</a>
                                                 </span>
@@ -85,7 +85,7 @@
                                             <a class="articleTitle enableVisited" href="http://36kr.com/p/5102761.html" target="_blank">
                                                 医鸣数据获近亿元 B 轮融资，挖掘医疗大数据价值
                                             </a>
-                                            <div class="meta___1Lsmr">
+                                            <div class="meta">
                                                 <span>
                                                     <a class="" target="_blank" href="http://36kr.com/p/5102761.html">
                                                         36Kr
@@ -119,13 +119,13 @@
                         </div>
                         <div class="ReactCollapse--collapse" style="overflow: hidden; height: 0px;">
                             <div class="ReactCollapse--content">
-                                <div class="main">
+                                <div class="itemMain">
                                     <div>
                                         <div class="articleItem first">
                                             <a class="articleTitle enableVisited" href="http://www.iyiou.com/p/59861" target="_blank">
                                             解放医生「双手」，医鸣数据完成近亿元 B 轮融资
                                             </a>
-                                            <div class="meta___1Lsmr">
+                                            <div class="meta">
                                                 <span>
                                                     <a class="" target="_blank" href="http://www.iyiou.com/p/59861">亿欧</a>
                                                 </span>
@@ -135,7 +135,7 @@
                                             <a class="articleTitle enableVisited" href="http://36kr.com/p/5102761.html" target="_blank">
                                                 医鸣数据获近亿元 B 轮融资，挖掘医疗大数据价值
                                             </a>
-                                            <div class="meta___1Lsmr">
+                                            <div class="meta">
                                                 <span>
                                                     <a class="" target="_blank" href="http://36kr.com/p/5102761.html">
                                                         36Kr
@@ -239,8 +239,39 @@ export default {
     &:first-child .topicTitle {
         padding-top: 0;
     }
+    .itemMain {
+        display: none;
+        .topicMeta {
+            min-height: 30px;
+            position: relative;
+            .topicLink {
+                font-size: 12px;
+                color: #909090;
+                position: absolute;
+                bottom: 8px;
+                right: 10px;
+                span {
+                    position: relative;
+                    top: 0;
+                    width: 0;
+                    height: 0;
+                    border-style: solid;
+                    border-width: 4px 0 4px 6px;
+                    border-color: transparent transparent transparent #b2b2b2;
+                    display: inline-block;
+                    margin-left: 6px;
+                }
+            }
+        }
+        .fix {
+            height: 16px;
+        }
+    }
     &.detail {
         position: relative;
+        .itemMain {
+            display: block;
+        }
     }
     &.detail.selected {
         background-color: #fff;
@@ -255,6 +286,9 @@ export default {
         padding-left: 21px;
         padding-right: 21px;
         z-index: 1;
+        &:first-child .topicTitle {
+            padding-top: 27px;
+        }
     }
     .topicTitle {
         color: #333;
@@ -293,6 +327,43 @@ export default {
     }
     .summaryHidden {
         padding-bottom: 20px;
+    }
+}
+.articleItem {
+    margin-left: 8px;
+    margin-bottom: 10px;
+    padding-left: 12px;
+    position: relative;
+    display: block;
+    &:before {
+        content: " ";
+        position: absolute;
+        left: -4px;
+        margin-top: 6px;
+        width: 4px;
+        height: 4px;
+        border: 1.5px solid #acb9c6;
+        border-radius: 50%;
+    }
+    .articleTitle {
+        color: #333;
+        font-size: 14px;
+        line-height: 1.4em;
+        display: inline;
+        text-decoration: none;
+        margin-right: 15px;
+        cursor: pointer;
+    }
+    .meta {
+        display: inline-block;
+        color: #a3a3a3;
+        font-size: 14px;
+        span {
+            a {
+                color: #a3a3a3;
+                text-decoration: none;
+            }
+        }
     }
 }
 </style>
