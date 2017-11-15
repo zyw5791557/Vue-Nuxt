@@ -5,141 +5,27 @@
             <div>
                 <!-- itemList start -->
                 <div id="itemList">
-                    <div class="topicItem" @click="addSelectClass">
-                        <h2 class="topicTitle first">
-                            <span class="content">医鸣数据获近亿元 B 轮融资，挖掘医疗大数据价值</span>
-                            <span class="time">1 小时前</span>
+                    <div class="topicItem" v-for="(item, index) in topicsData" :key="index" @click="addSelectClass(index)">
+                        <h2 class="topicTitle" :class="{ first: index === 0 }">
+                            <span class="content">{{ item.title }}</span>
+                            <span class="time">{{ item.publishDate | titleFilter }}</span>
                         </h2>
                         <div class="summary summaryHidden">
                             <div class="bp-pure">
-                                <div class="bp-beauty-line" style="letter-spacing: 0.23471px;">11 月 14 日，医鸣数据宣布完成近亿元人民币 B 轮融资，投资方为国中创投 ... 医鸣数据通过</div>
-                                <div class="bp-beauty-line" style="letter-spacing: 0.238095px;">无人工录入的数据采集技术及数据复杂计算处理技术提升医院及医生的工作效率，挖掘科研及</div>
-                                <div class="bp-beauty-line" style="letter-spacing: 0.0435207px;">学术价值 ... 「医鸣数据智能处理系统」实现数据结构化及复杂计算，在原始数据转化为...</div>
+                                <div class="bp-beauty-line collapse" :ref="`topicCollapse${index}`">{{ item.summary }}</div>
                             </div>
                         </div>
-                        <div class="ReactCollapse--collapse" style="overflow: hidden; height: 0px;">
-                            <div class="ReactCollapse--content">
+                        <div class="ReactCollapse-collapse">
+                            <div class="ReactCollapse-content">
                                 <div class="itemMain">
                                     <div>
-                                        <div class="articleItem first">
-                                            <a class="articleTitle enableVisited" href="http://www.iyiou.com/p/59861" target="_blank">
-                                            解放医生「双手」，医鸣数据完成近亿元 B 轮融资
+                                        <div class="articleItem" :class="{ first: idx === 0 }" v-for="(itm,idx) in item.newsArray">
+                                            <a class="articleTitle enableVisited" :href="itm.url" target="_blank">
+                                            {{ itm.title }}
                                             </a>
                                             <div class="meta">
                                                 <span>
-                                                    <a class="" target="_blank" href="http://www.iyiou.com/p/59861">亿欧</a>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="articleItem undefined">
-                                            <a class="articleTitle enableVisited" href="http://36kr.com/p/5102761.html" target="_blank">
-                                                医鸣数据获近亿元 B 轮融资，挖掘医疗大数据价值
-                                            </a>
-                                            <div class="meta">
-                                                <span>
-                                                    <a class="" target="_blank" href="http://36kr.com/p/5102761.html">
-                                                        36Kr
-                                                    </a>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="topicMeta">
-                                            <a class="topicLink" href="/topic/2QjZ624ZWfu" target="_blank">
-                                                查看话题
-                                                <span></span>
-                                            </a>
-                                        </div>
-                                        <p class="fix"></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="topicItem" @click="addSelectClass">
-                        <h2 class="topicTitle first">
-                            <span class="content">医鸣数据获近亿元 B 轮融资，挖掘医疗大数据价值</span>
-                            <span class="time">1 小时前</span>
-                        </h2>
-                        <div class="summary summaryHidden">
-                            <div class="bp-pure">
-                                <div class="bp-beauty-line" style="letter-spacing: 0.23471px;">11 月 14 日，医鸣数据宣布完成近亿元人民币 B 轮融资，投资方为国中创投 ... 医鸣数据通过</div>
-                                <div class="bp-beauty-line" style="letter-spacing: 0.238095px;">无人工录入的数据采集技术及数据复杂计算处理技术提升医院及医生的工作效率，挖掘科研及</div>
-                                <div class="bp-beauty-line" style="letter-spacing: 0.0435207px;">学术价值 ... 「医鸣数据智能处理系统」实现数据结构化及复杂计算，在原始数据转化为...</div>
-                            </div>
-                        </div>
-                        <div class="ReactCollapse--collapse" style="overflow: hidden; height: 0px;">
-                            <div class="ReactCollapse--content">
-                                <div class="itemMain">
-                                    <div>
-                                        <div class="articleItem first">
-                                            <a class="articleTitle enableVisited" href="http://www.iyiou.com/p/59861" target="_blank">
-                                            解放医生「双手」，医鸣数据完成近亿元 B 轮融资
-                                            </a>
-                                            <div class="meta">
-                                                <span>
-                                                    <a class="" target="_blank" href="http://www.iyiou.com/p/59861">亿欧</a>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="articleItem undefined">
-                                            <a class="articleTitle enableVisited" href="http://36kr.com/p/5102761.html" target="_blank">
-                                                医鸣数据获近亿元 B 轮融资，挖掘医疗大数据价值
-                                            </a>
-                                            <div class="meta">
-                                                <span>
-                                                    <a class="" target="_blank" href="http://36kr.com/p/5102761.html">
-                                                        36Kr
-                                                    </a>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="topicMeta">
-                                            <a class="topicLink" href="/topic/2QjZ624ZWfu" target="_blank">
-                                                查看话题
-                                                <span></span>
-                                            </a>
-                                        </div>
-                                        <p class="fix"></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="topicItem" @click="addSelectClass">
-                        <h2 class="topicTitle first">
-                            <span class="content">医鸣数据获近亿元 B 轮融资，挖掘医疗大数据价值</span>
-                            <span class="time">1 小时前</span>
-                        </h2>
-                        <div class="summary summaryHidden">
-                            <div class="bp-pure">
-                                <div class="bp-beauty-line" style="letter-spacing: 0.23471px;">11 月 14 日，医鸣数据宣布完成近亿元人民币 B 轮融资，投资方为国中创投 ... 医鸣数据通过</div>
-                                <div class="bp-beauty-line" style="letter-spacing: 0.238095px;">无人工录入的数据采集技术及数据复杂计算处理技术提升医院及医生的工作效率，挖掘科研及</div>
-                                <div class="bp-beauty-line" style="letter-spacing: 0.0435207px;">学术价值 ... 「医鸣数据智能处理系统」实现数据结构化及复杂计算，在原始数据转化为...</div>
-                            </div>
-                        </div>
-                        <div class="ReactCollapse--collapse" style="overflow: hidden; height: 0px;">
-                            <div class="ReactCollapse--content">
-                                <div class="itemMain">
-                                    <div>
-                                        <div class="articleItem first">
-                                            <a class="articleTitle enableVisited" href="http://www.iyiou.com/p/59861" target="_blank">
-                                            解放医生「双手」，医鸣数据完成近亿元 B 轮融资
-                                            </a>
-                                            <div class="meta">
-                                                <span>
-                                                    <a class="" target="_blank" href="http://www.iyiou.com/p/59861">亿欧</a>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="articleItem undefined">
-                                            <a class="articleTitle enableVisited" href="http://36kr.com/p/5102761.html" target="_blank">
-                                                医鸣数据获近亿元 B 轮融资，挖掘医疗大数据价值
-                                            </a>
-                                            <div class="meta">
-                                                <span>
-                                                    <a class="" target="_blank" href="http://36kr.com/p/5102761.html">
-                                                        36Kr
-                                                    </a>
+                                                    <a class="" target="_blank" :href="itm.url">{{ itm.siteName }}</a>
                                                 </span>
                                             </div>
                                         </div>
@@ -167,15 +53,88 @@
     </div>
 </template>
 <script>
+import { timeHandle } from '~/util/util.js';
 export default {
     data() {
-        return {};
+        return {
+            topicsData: [
+                {
+                    id: "4stgd9wkjkK",
+                    newsArray: [
+                        {
+                            "id": 18226675,
+                            "url": "http://tech.163.com/17/1115/15/D39S2JH300097U7R.html",
+                            "title": "网易云音乐与KKBOX合作，同时宣布用户数破4亿",
+                            "groupId": 1,
+                            "siteName": "网易科技",
+                            "siteSlug": "site_wangyi",
+                            "mobileUrl": "http://3g.163.com/tech/17/1115/15/D39S2JH300097U7R.html",
+                            "authorName": "王凤枝",
+                            "duplicateId": 1,
+                            "publishDate": "2017-11-15T07:00:59.000Z"
+                        }
+                    ],
+                    order: "25085",
+                    title: "脉脉完成C轮7500万美元融资 光源资本担任独家财务顾问",
+                    publishDate: "2017-11-15T07:33:46.925Z",
+                    summary: "网易云音乐CEO朱一闻表示，音乐其实有两次生命，一次是创作，另一次是传播，音乐的价值体现在传播和分享之中，好音乐理应获得更广泛的传播，感染更多的听众 ... KKBOX集团执行长林冠群表示：KKBOX和网易云音乐渊源已久，网易创始人丁磊和我从四五年前起就曾多次交流，而近一年，我和朱一闻也常常互换产品和技术心得，在产品理念方面非常契合 ... 在谈到双方合作缘起时，林冠群认为，网易云音乐和KKBOX有共同的理想，希望能够帮助新的歌手及其音乐有更多的机会与更大的舞台，整合资源，打造一个全球最大、效益最高的华语音乐宣传平台。",
+                },
+                {
+                    id: "4stgd9wkjkK",
+                    newsArray: [
+                        {
+                            "id": 18226675,
+                            "url": "http://tech.163.com/17/1115/15/D39S2JH300097U7R.html",
+                            "title": "网易云音乐与KKBOX合作，同时宣布用户数破4亿",
+                            "groupId": 1,
+                            "siteName": "网易科技",
+                            "siteSlug": "site_wangyi",
+                            "mobileUrl": "http://3g.163.com/tech/17/1115/15/D39S2JH300097U7R.html",
+                            "authorName": "王凤枝",
+                            "duplicateId": 1,
+                            "publishDate": "2017-11-15T07:00:59.000Z"
+                        }
+                    ],
+                    order: "25085",
+                    title: "脉脉完成C轮7500万美元融资 光源资本担任独家财务顾问",
+                    publishDate: "2017-11-15T07:33:46.925Z",
+                    summary: "网易云音乐CEO朱一闻表示，音乐其实有两次生命，一次是创作，另一次是传播，音乐的价值体现在传播和分享之中，好音乐理应获得更广泛的传播，感染更多的听众 ... KKBOX集团执行长林冠群表示：KKBOX和网易云音乐渊源已久，网易创始人丁磊和我从四五年前起就曾多次交流，而近一年，我和朱一闻也常常互换产品和技术心得，在产品理念方面非常契合 ... 在谈到双方合作缘起时，林冠群认为，网易云音乐和KKBOX有共同的理想，希望能够帮助新的歌手及其音乐有更多的机会与更大的舞台，整合资源，打造一个全球最大、效益最高的华语音乐宣传平台。",
+                },
+                {
+                    id: "4stgd9wkjkK",
+                    newsArray: [
+                        {
+                            "id": 18226675,
+                            "url": "http://tech.163.com/17/1115/15/D39S2JH300097U7R.html",
+                            "title": "网易云音乐与KKBOX合作，同时宣布用户数破4亿",
+                            "groupId": 1,
+                            "siteName": "网易科技",
+                            "siteSlug": "site_wangyi",
+                            "mobileUrl": "http://3g.163.com/tech/17/1115/15/D39S2JH300097U7R.html",
+                            "authorName": "王凤枝",
+                            "duplicateId": 1,
+                            "publishDate": "2017-11-15T07:00:59.000Z"
+                        }
+                    ],
+                    order: "25085",
+                    title: "脉脉完成C轮7500万美元融资 光源资本担任独家财务顾问",
+                    publishDate: "2017-11-15T07:33:46.925Z",
+                    summary: "网易云音乐CEO朱一闻表示，音乐其实有两次生命，一次是创作，另一次是传播，音乐的价值体现在传播和分享之中，好音乐理应获得更广泛的传播，感染更多的听众 ... KKBOX集团执行长林冠群表示：KKBOX和网易云音乐渊源已久，网易创始人丁磊和我从四五年前起就曾多次交流，而近一年，我和朱一闻也常常互换产品和技术心得，在产品理念方面非常契合 ... 在谈到双方合作缘起时，林冠群认为，网易云音乐和KKBOX有共同的理想，希望能够帮助新的歌手及其音乐有更多的机会与更大的舞台，整合资源，打造一个全球最大、效益最高的华语音乐宣传平台。",
+                }
+            ]
+        };
+    },
+    filters: {
+        titleFilter(val) {
+            return timeHandle(val);
+        }
     },
     methods: {
-        addSelectClass(e) {
-            var f = e.currentTarget.classList.contains('detail');
+        addSelectClass(index) {
+            var f = window.event.currentTarget.classList.contains('detail');
             if(f) {
-                e.currentTarget.classList.remove('detail');
+                window.event.currentTarget.classList.remove('detail');
+                this.$refs[`topicCollapse${index}`][0].classList.add('collapse');
             } else {
                 var ele = document.getElementsByClassName('topicItem');
                 for(let i = 0; i < ele.length; i++) {
@@ -185,10 +144,13 @@ export default {
                         break;
                     }
                 }
-                e.currentTarget.classList.add('detail', 'selected');
+                window.event.currentTarget.classList.add('detail', 'selected');
+                this.$refs[`topicCollapse${index}`][0].classList.remove('collapse');
             }
-            
         }
+    },
+    mounted() {
+
     }
 };
 </script>
@@ -214,6 +176,13 @@ export default {
     padding: 0;
     margin: 0;
     letter-spacing: 0;
+    &.collapse {
+        height: 81px;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        overflow: hidden;
+    }
 }
 /* 即时查看 */
 .instantViewIcon {
@@ -234,6 +203,7 @@ export default {
     }
 }
 .topicItem {
+    transition: height .3s;
     border-bottom: 1px solid #e6e6e6;
     position: relative;
     &:first-child .topicTitle {
@@ -286,9 +256,19 @@ export default {
         padding-left: 21px;
         padding-right: 21px;
         z-index: 1;
-        &:first-child .topicTitle {
-            padding-top: 27px;
+        &:first-child {
+            margin-top: -30px;
+            .topicTitle {
+                padding-top: 29px;
+            }
         }
+        .ReactCollapse-collapse {
+            height: auto;
+        }
+    }
+    .ReactCollapse-collapse {
+        overflow: hidden;
+        height: 0;
     }
     .topicTitle {
         color: #333;
