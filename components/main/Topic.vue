@@ -131,17 +131,19 @@ export default {
     },
     methods: {
         addSelectClass(index) {
+            var ele = document.getElementsByClassName('topicItem');
+            for(let i = 0; i < ele.length; i++) {
+                ele[i].classList.remove('selected');
+            }
             var f = window.event.currentTarget.classList.contains('detail');
             if(f) {
-                window.event.currentTarget.classList.remove('detail');
+                window.event.currentTarget.classList.remove('detail', 'selected');
                 this.$refs[`topicCollapse${index}`][0].classList.add('collapse');
             } else {
-                var ele = document.getElementsByClassName('topicItem');
                 for(let i = 0; i < ele.length; i++) {
                     var eleFlag = ele[i].classList.contains('detail');
                     if(eleFlag) {
-                        ele[i].classList.remove('detail');
-                        break;
+                        ele[i].classList.remove('selected', 'selected');
                     }
                 }
                 window.event.currentTarget.classList.add('detail', 'selected');
@@ -203,7 +205,8 @@ export default {
     }
 }
 .topicItem {
-    transition: height .3s;
+    max-height: 172px;
+    transition: max-height .5s;
     border-bottom: 1px solid #e6e6e6;
     position: relative;
     &:first-child .topicTitle {
@@ -238,9 +241,13 @@ export default {
         }
     }
     &.detail {
+        max-height: 800px;
         position: relative;
         .itemMain {
             display: block;
+        }
+        .ReactCollapse-collapse {
+            height: auto;
         }
     }
     &.detail.selected {
@@ -261,9 +268,6 @@ export default {
             .topicTitle {
                 padding-top: 29px;
             }
-        }
-        .ReactCollapse-collapse {
-            height: auto;
         }
     }
     .ReactCollapse-collapse {
