@@ -24,7 +24,7 @@
                             <div class="ReactCollapse-content">
                                 <div class="itemMain">
                                     <div>
-                                        <div class="articleItem" :class="{ first: idx === 0 }" v-for="(itm,idx) in item.newsArray">
+                                        <div class="articleItem" :class="{ first: idx === 0 }" v-for="(itm,idx) in item.newsArray" :key="idx">
                                             <a class="articleTitle enableVisited" :href="itm.url" target="_blank">
                                             {{ itm.title }}
                                             </a>
@@ -56,7 +56,7 @@
                 </div>
             </div>
         </div>
-        <div class="popup" :class="{ inactive: inactive }" @mousewheel="preventScroll">
+        <div class="popup" :class="{ inactive: inactive }">
             <div>
                 <div class="instantView" v-if="!inactive">
                     <div class="header">
@@ -99,9 +99,11 @@ export default {
             localStorage.removeItem('instantViewCacheList');
             document.onclick = function() {
                 _this.inactive = true;
+                document.body.style.overflowY = 'auto';             // 启动页面滚动条
             };
         },
         addSelectClass(index,item) {
+            var event = window.event || arguments.callee.caller.arguments[0];
             // 预请求
             var isRequest = false;
             var instantViewFlag = item.extra.instantView;
@@ -134,9 +136,9 @@ export default {
             for(let i = 0; i < ele.length; i++) {
                 ele[i].classList.remove('selected');
             }
-            var f = window.event.currentTarget.classList.contains('detail');
+            var f = event.currentTarget.classList.contains('detail');
             if(f) {
-                window.event.currentTarget.classList.remove('detail', 'selected');
+                event.currentTarget.classList.remove('detail', 'selected');
                 this.$refs[`topicCollapse${index}`][0].classList.add('collapse');
             } else {
                 for(let i = 0; i < ele.length; i++) {
@@ -145,23 +147,21 @@ export default {
                         ele[i].classList.remove('selected', 'selected');
                     }
                 }
-                window.event.currentTarget.classList.add('detail', 'selected');
+                event.currentTarget.classList.add('detail', 'selected');
                 this.$refs[`topicCollapse${index}`][0].classList.remove('collapse');
             }
         },
         instantViewPage(index,item) {
+            var event = window.event || arguments.callee.caller.arguments[0];
             var id = item.id;
             if(this.instantViewObject[id]) {
-                window.event.stopPropagation();
+                event.stopPropagation();
                 this.instantView = this.instantViewObject[id];
                 this.inactive = false;
+                document.body.style.overflowY = 'hidden';               // 页面滚动条失效
             } else {
                 this.addSelectClass(index,item);
             }
-        },
-        preventScroll() {
-            console.log(event)
-            // event.preventDefault();
         }
     },
     mounted() {
