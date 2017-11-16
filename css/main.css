@@ -281,3 +281,117 @@ a {
 .page-leave-active {
   opacity: 0;
 }
+
+/* 即时查看 */
+.contentView {
+  font-size: 17px;
+  color: #333;
+  line-height: 1.8em;
+  margin-bottom: 27px;
+}
+
+.contentView div,
+.contentView p,
+.contentView pre {
+  font-size: 17px;
+  color: #333;
+  line-height: 1.8em;
+  margin-bottom: 27px;
+}
+
+.contentView h2,
+.contentView h3,
+.contentView h4,
+.contentView h5,
+.contentView h6 {
+  font-size: 18px;
+  color: #1b1b1b;
+  line-height: 1.8em;
+  font-weight: 600;
+  margin-bottom: 27px;
+}
+
+.contentView a {
+  color: #4b6fcb;
+  font-size: 17px;
+  cursor: pointer;
+}
+
+.contentView a:after, .contentView a:before {
+  content: ' ';
+}
+
+.contentView a:hover {
+  text-decoration: underline;
+}
+
+.contentView strong {
+  font-size: 17px;
+  color: #1b1b1b;
+  line-height: 1.8em;
+  font-weight: 600;
+}
+
+.contentView img {
+  max-width: 100%;
+}
+
+.contentView span {
+  font-size: 17px;
+  color: #333;
+  line-height: 1.8em;
+  margin-bottom: 27px;
+}
+
+.contentView ol li,
+.contentView ul li {
+  font-size: 17px;
+  color: #333;
+  line-height: 1.8em;
+  margin-bottom: 21px;
+  padding-left: 28px;
+  position: relative;
+}
+
+.contentView ol li:last-child,
+.contentView ul li:last-child {
+  margin-bottom: 27px;
+}
+
+.contentView ol li:before,
+.contentView ul li:before {
+  content: url("~assets/images/bullet.png");
+  position: absolute;
+  top: 8px;
+  left: 0;
+  width: 56px;
+  height: 32px;
+  transform: scale(0.5);
+  transform-origin: top left;
+}
+
+.contentView blockquote {
+  font-size: 16px;
+  padding: 0 28px 29px;
+  color: gray;
+  line-height: 1.9em;
+  position: relative;
+}
+
+.contentView blockquote:before {
+  content: url("~assets/images/quote.png");
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 56px;
+  height: 32px;
+  transform: scale(0.5);
+  transform-origin: top left;
+}
+
+.contentView blockquote p {
+  font-size: 16px;
+  color: gray;
+  line-height: 1.9em;
+  margin-bottom: 0;
+}

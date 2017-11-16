@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<topic />
+		<topic :data="topicData" />
 		<sponsors :data="sponsorsData" />
 	</div>
 </template>
@@ -14,11 +14,15 @@ export default {
 		topic,
 		sponsors
 	},
-	async asyncData ({ params }) {
-		let { data } = await getAPI.sponsors();
-		return { 
-			sponsorsData: data.data
-		 }
+	asyncData ({ params }, callback) {
+		let p1 = getAPI.topicData();
+		let p2 = getAPI.sponsors();
+		Promise.all([p1,p2]).then(res => {
+			callback(null, {
+				topicData: res[0].data.data,
+				sponsorsData: res[1].data.data
+			})
+		})
 	}
 };
 </script>

@@ -24,6 +24,10 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  &:hover {
+    transition: all .3s ease-in-out;
+    background: #999;
+  }
   .line {
     width: 12px;
     height: 2px;

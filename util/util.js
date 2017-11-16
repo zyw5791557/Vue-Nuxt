@@ -26,5 +26,3 @@ export let timeHandle = function (UTC) {
         }
     }
 }
-
-

@@ -288,3 +288,104 @@ a {
 .page-leave-active {
   opacity: 0;
 }
+
+/* 即时查看 */
+
+
+.contentView {
+  font-size: 17px;
+  color: #333;
+  line-height: 1.8em;
+  margin-bottom: 27px;
+  div,
+  p,
+  pre {
+      font-size: 17px;
+      color: #333;
+      line-height: 1.8em;
+      margin-bottom: 27px;
+  }
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+      font-size: 18px;
+      color: #1b1b1b;
+      line-height: 1.8em;
+      font-weight: 600;
+      margin-bottom: 27px;
+  }
+  a {
+      color: #4b6fcb;
+      font-size: 17px;
+      cursor: pointer;
+      &:after,
+      &:before {
+          content: ' ';
+      }
+      &:hover {
+          text-decoration: underline
+      }
+  }
+  strong {
+      font-size: 17px;
+      color: #1b1b1b;
+      line-height: 1.8em;
+      font-weight: 600;
+  }
+  img {
+      max-width: 100%;
+  }
+  span {
+      font-size: 17px;
+      color: #333;
+      line-height: 1.8em;
+      margin-bottom: 27px;
+  }
+  ol li,
+  ul li {
+      font-size: 17px;
+      color: #333;
+      line-height: 1.8em;
+      margin-bottom: 21px;
+      padding-left: 28px;
+      position: relative;
+      &:last-child {
+          margin-bottom: 27px;
+      }
+      &:before {
+          content: url('~assets/images/bullet.png');
+          position: absolute;
+          top: 8px;
+          left: 0;
+          width: 56px;
+          height: 32px;
+          transform: scale(.5);
+          transform-origin: top left
+      }
+  }
+  blockquote {
+      font-size: 16px;
+      padding: 0 28px 29px;
+      color: gray;
+      line-height: 1.9em;
+      position: relative;
+      &:before {
+          content: url('~assets/images/quote.png');
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 56px;
+          height: 32px;
+          transform: scale(.5);
+          transform-origin: top left;
+      }
+      p {
+          font-size: 16px;
+          color: gray;
+          line-height: 1.9em;
+          margin-bottom: 0;
+      }
+  }
+}
