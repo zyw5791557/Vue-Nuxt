@@ -1,11 +1,16 @@
 <template>
     <div class="content">
-        <div class="globalMessage hide"></div>
+        <div class="globalMessage" :class="{ fixed: newCountFixed }" v-if="newCountFlag">
+            <div class="message last" style="margin-left: 0px; margin-right: 0px;" @click="reloadGetData">
+                <span>有 {{ newCount }} 个新话题，点击查看</span>
+                <span class="close" @click.stop="newCountFlag=false"></span>
+            </div>
+        </div>
         <div>
             <div>
                 <!-- itemList start -->
                 <div id="itemList">
-                    <div class="topicItem" v-for="(item, index) in topicsData" :key="index" @click="addSelectClass(index,item)">
+                    <div class="topicItem" v-for="(item, index) in topicsData" :key="index" @click="addSelectClass(index,item,$event)">
                         <h2 class="topicTitle" :class="{ first: index === 0 }">
                             <span class="content">{{ item.title }}</span>
                             <span class="time">{{ item.createdAt | titleFilter }}</span>
@@ -14,7 +19,7 @@
                             <div class="bp-pure">
                                 <div class="bp-beauty-line collapse" :ref="`topicCollapse${index}`">
                                     {{ item.summary }}
-                                    <div class="instantViewIcon" title="即使查看" v-if="item.extra.instantView" @click="instantViewPage(index,item)">
+                                    <div class="instantViewIcon" title="即使查看" v-if="item.extra.instantView" @click="instantViewPage(index,item,$event)">
                                         <img src="~/assets/images/glasses_blue.png" alt="">
                                     </div>
                                 </div>
@@ -24,13 +29,14 @@
                             <div class="ReactCollapse-content">
                                 <div class="itemMain">
                                     <div>
-                                        <div class="articleItem" :class="{ first: idx === 0 }" v-for="(itm,idx) in item.newsArray" :key="idx">
+                                        <div class="articleItem" :class="{ first: idx === 0 }" v-for="(itm,idx) in item.newsArray" :key="idx" v-if="siteNameFilter(item, itm, idx, '', '', 'articleItem')">
                                             <a class="articleTitle enableVisited" :href="itm.url" target="_blank">
                                             {{ itm.title }}
                                             </a>
                                             <div class="meta">
-                                                <span>
-                                                    <a class="" target="_blank" :href="itm.url">{{ itm.siteName }}</a>
+                                                <span v-for="(ele, d) in item.newsArray.length">
+                                                    <span v-if="siteNameFilter(item, itm, idx, ele, d, '/')"> / </span>
+                                                    <a class="" target="_blank" :href="item.newsArray[d].url" v-if="siteNameFilter(item, itm, idx, ele, d, 'a.siteName')">{{ item.newsArray[d].siteName }}</a> 
                                                 </span>
                                             </div>
                                         </div>
@@ -51,14 +57,14 @@
                 <div class="listButtonFix">
                     <div class="loading">
                         <img v-if="topicsData.length < 60" src="~/assets/images/loading.gif" alt="">
-                        <div v-else class="listButton">加载更多</div>
+                        <div v-else class="listButton" @click="loadMoreData">加载更多</div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="popup" :class="{ inactive: inactive }">
             <div>
-                <div class="instantView" v-if="!inactive">
+                <div class="instantView" v-if="!inactive" @click.stop>
                     <div class="header">
                         <span>来源：{{ instantView.siteName }}</span>
                         <a class="link" :href="instantView.url" target="_blank">访问原网址</a>
@@ -75,35 +81,91 @@
 </template>
 <script>
 import getAPI from '~/plugins/getAPI';
-import { timeHandle } from '~/util/util.js';
+import { timeHandle,ScrollTopEvents } from '~/util/util.js';
+/**
+ * @data 
+ * order        最新一条的序号
+ * newCount     新话题条数
+ */
+
 export default {
+    head() {
+        return {
+            title: `${this.newCount === 0 ? '' : `(${this.newCount})`}Readhub`
+        }
+    },
     data() {
         return {
             topicsData: [],
             instantView: {},
             instantViewObject: {},
             inactive: true,
+            order: '',
+            oldestOrder: '',
+            newCount: 0,
+            newCountFixed: false
         };
     },
     props:['data'],
+    computed: {
+        newCountFlag() {
+            return this.newCount !== 0;
+        }
+    },
     filters: {
         titleFilter(val) {
             return timeHandle(val);
         }
     },
     methods: {
-        init() {
+        init(f) {
             var _this = this;
-            this.topicsData = this.data;
-            // 清除 localStorage - 'instantViewCacheList'
-            localStorage.removeItem('instantViewCacheList');
-            document.onclick = function() {
+            if(f) {
+                // 拿父组件传进来的首屏数据
+                this.topicsData = this.data;
+                // 清除 localStorage - 'instantViewCacheList'
+                localStorage.removeItem('instantViewCacheList');
+            }
+            // 获取最新的序号
+            this.order = this.topicsData[0].order;
+            // 新话题清零
+            this.newCount = 0;
+            // 获取当前最旧的消息 order
+            this.oldestOrder = this.topicsData[this.topicsData.length - 1].order;
+            document.onclick = function(e) {
+                let evt = window.event || e;
                 _this.inactive = true;
                 document.body.style.overflowY = 'auto';             // 启动页面滚动条
             };
+            var p=0,t=0; 
+            window.onscroll = function(e) {
+                // 判断 toppicsData 数目, 超过 60 条 return
+                if(_this.topicsData.length >= 60) {
+                    return;
+                }
+                let evt = window.event || e;
+                let scrollTopEvents = new ScrollTopEvents();
+                p = scrollTopEvents.scrollTop();
+                // 落差
+                const fall = 200;
+                if(scrollTopEvents.scrollTop() + scrollTopEvents.windowHeight() >= scrollTopEvents.documentHeight() - fall){
+                    // 加载更多
+                    // if 下滚  else 下滚
+                    if(t<=p) {
+                        _this.loadMoreData();
+                        window.scrollTo(0,scrollTopEvents.scrollTop() - 500);
+                        return;
+                    } else {
+                        return;
+                    }
+                }
+                setTimeout(() => {
+                    t = p
+                }, 0);
+            }
         },
-        addSelectClass(index,item) {
-            var event = window.event || arguments.callee.caller.arguments[0];
+        addSelectClass(index,item,$event) {
+            var event = window.event || $event;
             // 预请求
             var isRequest = false;
             var instantViewFlag = item.extra.instantView;
@@ -151,8 +213,8 @@ export default {
                 this.$refs[`topicCollapse${index}`][0].classList.remove('collapse');
             }
         },
-        instantViewPage(index,item) {
-            var event = window.event || arguments.callee.caller.arguments[0];
+        instantViewPage(index,item,$event) {
+            var event = window.event || $event;
             var id = item.id;
             if(this.instantViewObject[id]) {
                 event.stopPropagation();
@@ -160,12 +222,56 @@ export default {
                 this.inactive = false;
                 document.body.style.overflowY = 'hidden';               // 页面滚动条失效
             } else {
-                this.addSelectClass(index,item);
+                this.addSelectClass(index,item,$event);
             }
+        },
+        // siteName 过滤器
+        siteNameFilter(item, itm, idx, ele, d, node) {
+            switch (node) {
+                case 'articleItem':
+                    return ( (item.newsArray[idx] && item.newsArray[idx].duplicateId) !== (item.newsArray[idx - 1] && item.newsArray[idx - 1].duplicateId));
+                    break;
+                case '/':
+                    return ((d !== 0) && (item.newsArray[idx] && item.newsArray[idx].duplicateId === (item.newsArray[idx + 1] && item.newsArray[idx + 1].duplicateId)) && ((item.newsArray[ele-1] && item.newsArray[ele-1].siteName) !== itm.siteName) && ((item.newsArray[ele-1] && item.newsArray[ele-1].duplicateId) === itm.duplicateId) && idx + 1 !== item.newsArray.length);
+                    break;
+                default:
+                    return (((item.newsArray[idx] && item.newsArray[idx].duplicateId === (item.newsArray[idx + 1] && item.newsArray[idx + 1].duplicateId)) && idx + 1 !== item.newsArray.length) && ((item.newsArray[ele-1] && item.newsArray[ele-1].siteName) !== itm.siteName) && ((item.newsArray[ele-1] && item.newsArray[ele-1].duplicateId) === itm.duplicateId) || d === idx);
+                    break;
+            }
+        },
+        // 检查新消息
+        checkNewCount() {
+            // 30秒检查一次
+            const order = this.order;
+            setInterval(() => {
+                getAPI.topicCheckCount(order).then(res => {
+                    this.newCount = res.data.count;
+                });
+            },30000);
+        },
+        // 重新获取话题
+        reloadGetData() {
+            getAPI.topicData().then(res => {
+                // 数据重新赋值
+                this.topicsData = res.data.data;
+                this.init(0);
+            });
+        },
+        // 加载更多
+        loadMoreData() {
+            getAPI.topicData({
+                lastCursor: this.oldestOrder,
+                pageSize: 10
+            }).then(res => {
+                // 加载更多数据
+                this.topicsData = this.topicsData.concat(res.data.data);
+                this.init(0);
+            });
         }
     },
     mounted() {
-        this.init();
+        this.init(1);
+        this.checkNewCount();
     }
 };
 </script>
@@ -218,7 +324,7 @@ export default {
     }
 }
 .topicItem {
-    max-height: 172px;
+    max-height: 211px;
     transition: max-height .5s;
     border-bottom: 1px solid #e6e6e6;
     position: relative;
@@ -260,6 +366,7 @@ export default {
             display: block;
         }
         .ReactCollapse-collapse {
+            opacity: 1;
             height: auto;
         }
     }
@@ -284,6 +391,8 @@ export default {
         }
     }
     .ReactCollapse-collapse {
+        opacity: 0;
+        transition: opacity .5s;
         overflow: hidden;
         height: 0;
     }
@@ -350,6 +459,10 @@ export default {
         text-decoration: none;
         margin-right: 15px;
         cursor: pointer;
+        &:hover {
+            color: #246394;
+            text-decoration: underline;
+        }
     }
     .meta {
         display: inline-block;
@@ -359,6 +472,9 @@ export default {
             a {
                 color: #a3a3a3;
                 text-decoration: none;
+                &:hover {
+                    text-decoration: underline;
+                }
             }
         }
     }

@@ -23,6 +23,9 @@ let getAPI = {
     },
     instantView(id) {
         return axios.get( baseUrl + `topic/instantview?topicId=${id}`);
+    },
+    topicCheckCount(order) {
+        return axios.get( baseUrl + `topic/newCount?latestCursor=${order}`);
     }
 }
 

@@ -1,9 +1,20 @@
 <template>
-    <div class="backTop">
+    <div class="backTop" @click.stop="backTop">
         <div class="line"></div>
         <div class="arrow"></div>
     </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    backTop() {
+      document.body.scrollTop = 0
+      document.documentElement.scrollTop = 0
+    }
+  }
+}
+</script>
 
 <style lang="scss" scoped>
 /* 回到顶部 */

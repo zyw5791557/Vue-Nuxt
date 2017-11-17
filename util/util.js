@@ -18,11 +18,35 @@ export let timeHandle = function (UTC) {
                     hour = Math.round(hour);
                     return `${hour}小时前`;
                 } else {
-                    let day = date % (1000 * 60 * 60 * 24);
+                    let day = date / (1000 * 60 * 60 * 24);
                     day = Math.round(day);
                     return `${day}天前`;
                 }
             }
         }
+    }
+}
+
+
+export let ScrollTopEvents = function() {
+
+}
+
+ScrollTopEvents.prototype = {
+    scrollTop(){
+        return Math.max(
+                //chrome
+                document.body.scrollTop,
+                //firefox/IE
+                document.documentElement.scrollTop);
+    },
+    documentHeight(){
+        //现代浏览器（IE9+和其他浏览器）和IE8的document.body.scrollHeight和document.documentElement.scrollHeight都可以
+        return Math.max(document.body.scrollHeight,document.documentElement.scrollHeight);
+    },
+    windowHeight(){
+        return (document.compatMode == "CSS1Compat")?
+                document.documentElement.clientHeight:
+                document.body.clientHeight;
     }
 }

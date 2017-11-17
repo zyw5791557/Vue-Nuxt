@@ -395,3 +395,65 @@ a {
   line-height: 1.9em;
   margin-bottom: 0;
 }
+
+/* 全局消息提示 */
+.globalMessage {
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+  height: 14px;
+  line-height: 14px;
+  margin-bottom: 20px;
+  display: block;
+}
+
+.globalMessage.fixed {
+  width: 625px;
+  margin-top: 8px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 120;
+}
+
+.globalMessage .message {
+  cursor: pointer;
+  padding-top: 13px;
+  padding-bottom: 13px;
+  border: 1px solid #dedacf;
+  color: #7a6c5d;
+  font-weight: 500;
+  background-color: #fff7e0;
+  border-radius: 4px;
+  position: relative;
+}
+
+.globalMessage .message.last {
+  margin-bottom: 0;
+}
+
+.globalMessage .message span {
+  display: block;
+  height: 14px;
+  line-height: 14px;
+}
+
+.globalMessage .message .close {
+  position: absolute;
+  right: 0;
+  width: 60px;
+  top: 0;
+  height: 40px;
+  z-index: 130;
+  background-repeat: no-repeat;
+  background-position-x: 20px;
+  background-size: 40px;
+  background-image: url("~assets/images/icon_close.png");
+}
+
+@media (min-width: 601px) {
+  .globalMessage {
+    position: relative;
+    top: -16px;
+  }
+}
