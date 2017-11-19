@@ -26,6 +26,9 @@ let getAPI = {
     },
     topicCheckCount(order) {
         return axios.get( baseUrl + `topic/newCount?latestCursor=${order}`);
+    },
+    topicDetail(id) {
+        return axios.get( baseUrl + `topic/${id}`);
     }
 }
 

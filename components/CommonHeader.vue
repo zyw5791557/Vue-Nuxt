@@ -47,10 +47,9 @@ export default {
     },
   },
   mounted() {
-    var _this = this;
-    document.onclick = function() {
-      _this.qr = false;
-    };
+    document.addEventListener('click',() => {
+      this.qr = false;
+    },false);
   }
 };
 </script>

@@ -34,7 +34,7 @@
                                             {{ itm.title }}
                                             </a>
                                             <div class="meta">
-                                                <span v-for="(ele, d) in item.newsArray.length">
+                                                <span v-for="(ele, d) in item.newsArray.length" :key="d">
                                                     <span v-if="siteNameFilter(item, itm, idx, ele, d, '/')"> / </span>
                                                     <a class="" target="_blank" :href="item.newsArray[d].url" v-if="siteNameFilter(item, itm, idx, ele, d, 'a.siteName')">{{ item.newsArray[d].siteName }}</a> 
                                                 </span>
@@ -119,40 +119,46 @@ export default {
     },
     methods: {
         init(f) {
-            var _this = this;
             if(f) {
                 // 拿父组件传进来的首屏数据
                 this.topicsData = this.data;
                 // 清除 localStorage - 'instantViewCacheList'
                 localStorage.removeItem('instantViewCacheList');
+                // 新话题清零
+                this.newCount = 0;
             }
             // 获取最新的序号
             this.order = this.topicsData[0].order;
-            // 新话题清零
-            this.newCount = 0;
             // 获取当前最旧的消息 order
             this.oldestOrder = this.topicsData[this.topicsData.length - 1].order;
-            document.onclick = function(e) {
+            document.addEventListener('click', (e) => {
                 let evt = window.event || e;
-                _this.inactive = true;
+                this.inactive = true;
                 document.body.style.overflowY = 'auto';             // 启动页面滚动条
-            };
+            },false);
+            // 判断   上滚动 / 下滚动
             var p=0,t=0; 
-            window.onscroll = function(e) {
-                // 判断 toppicsData 数目, 超过 60 条 return
-                if(_this.topicsData.length >= 60) {
-                    return;
-                }
+            window.addEventListener('scroll', (e) => {
                 let evt = window.event || e;
                 let scrollTopEvents = new ScrollTopEvents();
                 p = scrollTopEvents.scrollTop();
+                // 全局消息滚动吸附
+                if(p > 80) {
+                    this.newCountFixed = true;
+                } else {
+                    this.newCountFixed = false;
+                }
+                // 判断 toppicsData 数目, 超过 60 条 return
+                if(this.topicsData.length >= 60) {
+                    return;
+                }
                 // 落差
                 const fall = 200;
                 if(scrollTopEvents.scrollTop() + scrollTopEvents.windowHeight() >= scrollTopEvents.documentHeight() - fall){
                     // 加载更多
                     // if 下滚  else 下滚
                     if(t<=p) {
-                        _this.loadMoreData();
+                        this.loadMoreData();
                         window.scrollTo(0,scrollTopEvents.scrollTop() - 500);
                         return;
                     } else {
@@ -162,7 +168,7 @@ export default {
                 setTimeout(() => {
                     t = p
                 }, 0);
-            }
+            },false);
         },
         addSelectClass(index,item,$event) {
             var event = window.event || $event;
@@ -254,7 +260,7 @@ export default {
             getAPI.topicData().then(res => {
                 // 数据重新赋值
                 this.topicsData = res.data.data;
-                this.init(0);
+                this.init(1);
             });
         },
         // 加载更多
