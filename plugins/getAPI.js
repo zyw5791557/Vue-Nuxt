@@ -17,9 +17,15 @@ let getAPI = {
     sponsors() {
         return axios.get( localURL + '/mock/Sponsors.json');
     },
+    // 热门话题
     topicData(params) {
         var p = initParams(params) || 'lastCursor=&pageSize=10';
         return axios.get( baseUrl + `topic?${p}`);
+    },
+    // 科技动态
+    newsData(params) {
+        var p = initParams(params) || 'lastCursor=&pageSize=10';
+        return axios.get( baseUrl + `news?${p}`);
     },
     instantView(id) {
         return axios.get( baseUrl + `topic/instantview?topicId=${id}`);

@@ -7,12 +7,12 @@
 
 <script>
 export default {
-  methods: {
-    backTop() {
-      document.body.scrollTop = 0
-      document.documentElement.scrollTop = 0
-    }
-  }
+	methods: {
+		backTop() {
+			document.body.scrollTop = 0;
+			document.documentElement.scrollTop = 0;
+		}
+	},
 }
 </script>
 

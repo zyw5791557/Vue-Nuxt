@@ -28,7 +28,7 @@
                                 <section class="timeline">
                                     <p class="timeline-header">事件追踪</p>
                                     <ul class="timeline-container timeline-container--pc">
-                                        <li class="timeline-item timeline-item--pc" v-for="(item,index) in topicDetailData.timeline.topics">
+                                        <li class="timeline-item timeline-item--pc" v-for="(item,index) in topicDetailData.timeline.topics" :key="index">
                                             <div class="date-item">
                                                 <div>{{ item.createdAt | UTCFilter }}</div>
                                             </div>
@@ -49,12 +49,11 @@
             </div>
             <div class="qr">
                 <div class="img">
-                    <canvas height="128" width="128" style="height: 128px; width: 128px;"></canvas>
+                    <qrcode :value="qrURL" :options="{ size: 128 }"></qrcode>
                 </div>
                 <p>扫描二维码分享话题</p>
             </div>
         </div>
-        <qrcode val="http://www.baidu.com"></qrcode>
     </div>
 </template>
 
@@ -62,6 +61,11 @@
 import getAPI from '~/plugins/getAPI.js';
 import { timeHandle,UTCParse } from '~/util/util.js';
 export default {
+    head() {
+        return {
+            title: this.topicDetailData.title
+        }
+    },
     layout: 'topic',
     asyncData({ params },callback) {
         const id = params.id;
@@ -71,8 +75,11 @@ export default {
             })
         });
     },
-    components: {
-
+    computed: {
+        qrURL() {
+            const base_url = 'https://readhub.me/topic/';
+            return base_url + this.$route.params.id;
+        }
     },
     filters: {
         timeFilter(val) {
@@ -116,7 +123,7 @@ export default {
         }
     },
     mounted() {
-        console.log(this.topicDetailData);
+
     }
 }
 </script>
