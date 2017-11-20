@@ -29,19 +29,24 @@
                             <div class="ReactCollapse-content">
                                 <div class="itemMain">
                                     <div>
-                                        <div class="articleItem" :class="{ first: idx === 0 }" v-for="(itm,idx) in item.newsArray" :key="idx" v-if="siteNameFilter(item, itm, idx, '', '', 'articleItem')">
-                                            <a class="articleTitle enableVisited" :href="itm.url" target="_blank">
-                                            {{ itm.title }}
-                                            </a>
+                                        
+                                        <!-- siteName start -->
+                                        <div class="articleItem detail" :class="{ first: index === 0 }" v-for="(newsArrayItem,newsArrayIndex) in artItemHandle(item.newsArray)" :key="newsArrayIndex">
+                                            <a class="articleTitle enableVisited" href="" target="_blank">{{ newsArrayItem.title }}</a>
                                             <div class="meta">
-                                                <span v-for="(ele, d) in item.newsArray.length" :key="d">
-                                                    <span v-if="siteNameFilter(item, itm, idx, ele, d, '/')"> / </span>
-                                                    <a class="" target="_blank" :href="item.newsArray[d].url" v-if="siteNameFilter(item, itm, idx, ele, d, 'a.siteName')">{{ item.newsArray[d].siteName }}</a> 
+                                                <span>
+                                                    <template v-for="(ele,d) in newsArrayItem.siteName">
+                                                            <span v-if="(newsArrayItem.siteName.length !== 1) && (d !== 0) && (d < 3)"> / </span>
+                                                            <a class="" target="_blank" :href="ele.url" v-if="d < 3">{{ ele.siteName }}</a>
+                                                            <span v-if="d === 3"> 等</span>
+                                                    </template>
                                                 </span>
                                             </div>
                                         </div>
+                                        <!-- siteName end -->
+
                                         <div class="topicMeta">
-                                            <a class="topicLink" href="/topic/2QjZ624ZWfu" target="_blank">
+                                            <a class="topicLink" :href="`/topic/${item.id}`" target="_blank">
                                                 查看话题
                                                 <span></span>
                                             </a>
@@ -231,19 +236,36 @@ export default {
                 this.addSelectClass(index,item,$event);
             }
         },
-        // siteName 过滤器
-        siteNameFilter(item, itm, idx, ele, d, node) {
-            switch (node) {
-                case 'articleItem':
-                    return ( (item.newsArray[idx] && item.newsArray[idx].duplicateId) !== (item.newsArray[idx - 1] && item.newsArray[idx - 1].duplicateId));
-                    break;
-                case '/':
-                    return ((d !== 0) && (item.newsArray[idx] && item.newsArray[idx].duplicateId === (item.newsArray[idx + 1] && item.newsArray[idx + 1].duplicateId)) && ((item.newsArray[ele-1] && item.newsArray[ele-1].siteName) !== itm.siteName) && ((item.newsArray[ele-1] && item.newsArray[ele-1].duplicateId) === itm.duplicateId) && idx + 1 !== item.newsArray.length);
-                    break;
-                default:
-                    return (((item.newsArray[idx] && item.newsArray[idx].duplicateId === (item.newsArray[idx + 1] && item.newsArray[idx + 1].duplicateId)) && idx + 1 !== item.newsArray.length) && ((item.newsArray[ele-1] && item.newsArray[ele-1].siteName) !== itm.siteName) && ((item.newsArray[ele-1] && item.newsArray[ele-1].duplicateId) === itm.duplicateId) || d === idx);
-                    break;
+        // articleItem 处理器
+        artItemHandle(items) {
+            let arr = [];
+            for(let i = 0;i < items.length;i++) {
+                let f = 1;
+                arr.some(itm => {
+                    if(itm.duplicateId === items[i].duplicateId) {
+                        let siteNameObj = {};
+                        siteNameObj.siteName = items[i].siteName;
+                        siteNameObj.url = items[i].url;
+                        itm.siteName.push(siteNameObj);
+                        f = 0;
+                        return;
+                    }
+                });
+                if(f) {
+                    let o = {};
+                    let siteNameArr = [];
+                    let siteNameObj = {};
+                    const duplicateId = items[i].duplicateId;
+                    o.title = items[i].title;
+                    siteNameObj.siteName = items[i].siteName;
+                    siteNameObj.url = items[i].url;
+                    siteNameArr.push(siteNameObj);
+                    o.siteName = siteNameArr;
+                    o.duplicateId = items[i].duplicateId;
+                    arr.push(o);
+                }
             }
+            return arr;
         },
         // 检查新消息
         checkNewCount() {

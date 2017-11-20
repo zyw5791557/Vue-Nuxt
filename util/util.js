@@ -27,6 +27,15 @@ export let timeHandle = function (UTC) {
     }
 }
 
+export let UTCParse = function(UTC) {
+    // UTC 换算
+    let month = new Date(UTC).getMonth() + 1;
+    let day = new Date(UTC).getDate();
+    if(month < 10) month = '0' + month;
+    if(day < 10) day = '0' + day;
+    return `${month}.${day}`;
+}
+
 
 export let ScrollTopEvents = function() {
 

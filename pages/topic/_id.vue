@@ -4,86 +4,40 @@
             <div>
                 <div class="topicItem detail detailMode">
                     <h2 class="topicTitle">
-                        <span class="content">自媒体侵权美团点评被判赔 10 万 称将反诉</span>
-                        <span class="time"></span>
+                        <span class="content">{{ topicDetailData.title }}</span>
+                        <span class="time">{{ topicDetailData.createdAt | timeFilter }}</span>
                     </h2>
-                    <div class="summary">美团点评法务负责人表示，今年 1 月，朱翊通过「今日头条」平台发表了题为《王兴任人唯亲成痛点 美团势力图浮出水面》的文章，文章虚构了大量信息 ... 文章发布后，被多家网站转载，对美团点评的社会评价造成严重影响 ... 法院审理认为，朱翊撰写并发表上述文章具有明确过错，对美团点评的商业信誉和产品声誉损害事实成立，且朱翊的行为具有明显违法性，应承担相应侵权责任，向美团点评赔礼道歉并赔偿 10 万元人民币。</div>
+                    <div class="summary">{{ topicDetailData.summary }}</div>
                     <div class="main">
                         <div>
-                            <div class="articleItem detail first">
-                                <a class="articleTitle enableVisited" href="" target="_blank">美团新逻辑：壁垒、管理与它的新战场</a>
+                            <!-- siteName start -->
+                            <div class="articleItem detail" :class="{ first: index === 0 }" v-for="(item,index) in artItemHandle(topicDetailData.newsArray)" :key="index">
+                                <a class="articleTitle enableVisited" href="" target="_blank">{{ item.title }}</a>
                                 <div class="meta">
                                     <span>
-                                        <a href="" target="_blank">36Kr</a>
-                                        <span> / </span>
-                                        <a href="" target="_blank">新浪科技</a>
-                                        <span> / </span>
-                                        <a href="" target="_blank">网易科技</a>
+                                        <template v-for="(ele,d) in item.siteName">
+                                                <span v-if="(item.siteName.length !== 1) && (d !== 0) && (d < 3)"> / </span>
+                                                <a class="" target="_blank" :href="ele.url" v-if="d < 3">{{ ele.siteName }}</a>
+                                                <span v-if="d === 3"> 等</span>
+                                        </template>
                                     </span>
                                 </div>
                             </div>
-                            <div class="articleItem detail">
-                                <a class="articleTitle enableVisited" href="" target="_blank">美团新逻辑：壁垒、管理与它的新战场</a>
-                                <div class="meta">
-                                    <span>
-                                        <a href="" target="_blank">36Kr</a>
-                                        <span> / </span>
-                                        <a href="" target="_blank">新浪科技</a>
-                                        <span> / </span>
-                                        <a href="" target="_blank">网易科技</a>
-                                    </span>
-                                </div>
-                            </div>
-                            <div class="articleItem detail">
-                                <a class="articleTitle enableVisited" href="" target="_blank">美团新逻辑：壁垒、管理与它的新战场</a>
-                                <div class="meta">
-                                    <span>
-                                        <a href="" target="_blank">36Kr</a>
-                                        <span> / </span>
-                                        <a href="" target="_blank">新浪科技</a>
-                                        <span> / </span>
-                                        <a href="" target="_blank">网易科技</a>
-                                    </span>
-                                </div>
-                            </div>
+                            <!-- siteName end -->
                             <div class="topicMeta">
                                 <section class="timeline">
                                     <p class="timeline-header">事件追踪</p>
                                     <ul class="timeline-container timeline-container--pc">
-                                        <li class="timeline-item timeline-item--pc">
+                                        <li class="timeline-item timeline-item--pc" v-for="(item,index) in topicDetailData.timeline.topics">
                                             <div class="date-item">
-                                                <div>11.17</div>
+                                                <div>{{ item.createdAt | UTCFilter }}</div>
                                             </div>
                                             <div class="dot-item">
                                                 <div class="dot-item-default dot-item--pc"></div>
                                             </div>
                                             <div class="line-item line-item--pc"></div>
                                             <div class="content-item">
-                                                <a class="timeline-content" href="" target="_blank">自媒体侵权美团点评被判赔 10 万 称将反诉</a>
-                                            </div>
-                                        </li>
-                                        <li class="timeline-item timeline-item--pc">
-                                            <div class="date-item">
-                                                <div>11.17</div>
-                                            </div>
-                                            <div class="dot-item">
-                                                <div class="dot-item-default dot-item--pc"></div>
-                                            </div>
-                                            <div class="line-item line-item--pc"></div>
-                                            <div class="content-item">
-                                                <a class="timeline-content" href="" target="_blank">自媒体侵权美团点评被判赔 10 万 称将反诉</a>
-                                            </div>
-                                        </li>
-                                        <li class="timeline-item timeline-item--pc">
-                                            <div class="date-item">
-                                                <div>11.17</div>
-                                            </div>
-                                            <div class="dot-item">
-                                                <div class="dot-item-default dot-item--pc"></div>
-                                            </div>
-                                            <div class="line-item line-item--pc"></div>
-                                            <div class="content-item">
-                                                <a class="timeline-content" href="" target="_blank">自媒体侵权美团点评被判赔 10 万 称将反诉</a>
+                                                <a class="timeline-content" href="" target="_blank">{{ item.title }}</a>
                                             </div>
                                         </li>
                                     </ul>
@@ -100,11 +54,13 @@
                 <p>扫描二维码分享话题</p>
             </div>
         </div>
+        <qrcode val="http://www.baidu.com"></qrcode>
     </div>
 </template>
 
 <script>
-import getAPI from '~/plugins/getAPI';
+import getAPI from '~/plugins/getAPI.js';
+import { timeHandle,UTCParse } from '~/util/util.js';
 export default {
     layout: 'topic',
     asyncData({ params },callback) {
@@ -114,6 +70,50 @@ export default {
                 topicDetailData: res.data
             })
         });
+    },
+    components: {
+
+    },
+    filters: {
+        timeFilter(val) {
+            return timeHandle(val);
+        },
+        UTCFilter(val) {
+            return UTCParse(val);
+        }
+    },
+    methods: {
+        // articleItem 处理器
+        artItemHandle(items) {
+            let arr = [];
+            for(let i = 0;i < items.length;i++) {
+                let f = 1;
+                arr.some(itm => {
+                    if(itm.duplicateId === items[i].duplicateId) {
+                        let siteNameObj = {};
+                        siteNameObj.siteName = items[i].siteName;
+                        siteNameObj.url = items[i].url;
+                        itm.siteName.push(siteNameObj);
+                        f = 0;
+                        return;
+                    }
+                });
+                if(f) {
+                    let o = {};
+                    let siteNameArr = [];
+                    let siteNameObj = {};
+                    const duplicateId = items[i].duplicateId;
+                    o.title = items[i].title;
+                    siteNameObj.siteName = items[i].siteName;
+                    siteNameObj.url = items[i].url;
+                    siteNameArr.push(siteNameObj);
+                    o.siteName = siteNameArr;
+                    o.duplicateId = items[i].duplicateId;
+                    arr.push(o);
+                }
+            }
+            return arr;
+        }
     },
     mounted() {
         console.log(this.topicDetailData);
@@ -280,6 +280,10 @@ export default {
         text-decoration: none;
         margin-right: 15px;
         cursor: pointer;
+        &:hover {
+            color: #246394;
+            text-decoration: underline;
+        }
     }
     .meta {
         display: inline-block;
@@ -288,6 +292,10 @@ export default {
         span a {
                 color: #a3a3a3;
                 text-decoration: none;
+                font-size: 15px;
+                &:hover {
+                    text-decoration: underline;
+                }
             }
     }
 }
@@ -309,6 +317,9 @@ export default {
     display: flex;
     &:last-child {
         padding-bottom: 0;
+        .line-item {
+            display: none;
+        }
     }
 }
 .timeline-item--pc {
@@ -327,7 +338,7 @@ export default {
 }
 .dot-item {
     padding: 8px 15px;
-    padding-left: 24px;
+    padding-left: 22px;
     width: 16px;
     position: relative;
     z-index: 1;
