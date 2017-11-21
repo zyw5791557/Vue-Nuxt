@@ -27,6 +27,11 @@ let getAPI = {
         var p = initParams(params) || 'lastCursor=&pageSize=10';
         return axios.get( baseUrl + `news?${p}`);
     },
+    // 开发者资讯
+    techsData(params) {
+        var p = initParams(params) || 'lastCursor=&pageSize=10';
+        return axios.get( baseUrl + `technews?${p}`);
+    },
     instantView(id) {
         return axios.get( baseUrl + `topic/instantview?topicId=${id}`);
     },

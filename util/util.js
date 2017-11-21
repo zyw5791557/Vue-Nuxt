@@ -36,6 +36,13 @@ export let UTCParse = function(UTC) {
     return `${month}.${day}`;
 }
 
+export let UTCToSec = function(UTC) {
+    // UTC 换算毫秒
+    let time = new Date(UTC).getTime();
+    return time;
+}
+
+
 
 export let ScrollTopEvents = function() {
 

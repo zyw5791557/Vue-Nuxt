@@ -101,7 +101,7 @@ export default {
     },
     data() {
         return {
-            topicsData: [],
+            topicsData: this.data,
             instantView: {},
             instantViewObject: {},
             inactive: true,
@@ -123,10 +123,8 @@ export default {
         }
     },
     methods: {
-        init(f) {
+        initData(f) {
             if(f) {
-                // 拿父组件传进来的首屏数据
-                this.topicsData = this.data;
                 // 清除 localStorage - 'instantViewCacheList'
                 localStorage.removeItem('instantViewCacheList');
                 // 新话题清零
@@ -136,6 +134,8 @@ export default {
             this.order = this.topicsData[0].order;
             // 获取当前最旧的消息 order
             this.oldestOrder = this.topicsData[this.topicsData.length - 1].order;
+        },
+        initMethods() {
             document.addEventListener('click', (e) => {
                 let evt = window.event || e;
                 this.inactive = true;
@@ -282,7 +282,7 @@ export default {
             getAPI.topicData().then(res => {
                 // 数据重新赋值
                 this.topicsData = res.data.data;
-                this.init(1);
+                this.initData(1);
             });
         },
         // 加载更多
@@ -293,12 +293,13 @@ export default {
             }).then(res => {
                 // 加载更多数据
                 this.topicsData = this.topicsData.concat(res.data.data);
-                this.init(0);
+                this.initData(0);
             });
         }
     },
     mounted() {
-        this.init(1);
+        this.initData(1);
+        this.initMethods();
         this.checkNewCount();
     }
 };

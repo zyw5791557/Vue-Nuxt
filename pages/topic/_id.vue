@@ -42,6 +42,22 @@
                                         </li>
                                     </ul>
                                 </section>
+                                <div class="entityEventTopicsSection" v-if="false">
+                                    <p class="entityEventTopicsTitle">相关话题</p>
+                                    <ul>
+                                        <li class="entityEventTopicsList">
+                                            <span class="tooltip-container">
+                                                <span class="entityEventText"></span>
+                                                <div class="tooltip-arrow arrow-right"></div>
+                                                <div class="tooltip-content content-right">
+                                                    <section class="timeline">
+                                                        <ul class="timeline__container timeline__container--PC"></ul>
+                                                    </section>
+                                                </div>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -383,6 +399,99 @@ export default {
     .timeline {
         margin-top: 50px;
     }
+}
+
+/* 相关话题 */
+.entityEventTopicsSection {
+    margin-top: 50px;
+}
+.entityEventTopicsTitle {
+    margin-bottom: 32px;
+    font-size: 16px;
+    color: #999;
+}
+.entityEventTopicsList {
+    margin-bottom: 30px;
+}
+.tooltip-container {
+    position: relative;
+}
+.entityEventText {
+    font-size: 15px;
+    color: #7f7f7f;
+    position: relative;
+    padding: 7px 15px;
+    margin-right: 20px;
+    &:before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 1px solid #dadada;
+        border-radius: 5px;
+    }
+}
+.tooltip-arrow {
+    background-color: #fff;
+    position: absolute;
+    visibility: hidden;
+    z-index: 2;
+    left: -9999px;
+    width: 30px;
+    height: 30px;
+    transform: rotate(45deg) scale(.5);
+    transform-origin: top left;
+    border: solid #ccc;
+    left: 100%;
+    border-width: 0 0 1px 1px;
+    top: 0;
+}
+.tooltip-content {
+    position: absolute;
+    left: -9999px;
+    width: 540px;
+    visibility: hidden;
+    z-index: 1;
+    section {
+        margin-top: 0;
+        ul {
+            background-color: #fff;
+            border: none;
+            box-shadow: 0 4px 18px -4px rgba(0,0,0,.1);
+            &:before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                border: 1px solid #ccc;
+                border-radius: 16px;
+                box-sizing: border-box;
+                width: 200%;
+                height: 200%;
+                transform: scale(.5);
+                transform-origin: left top;
+            }
+        }
+    }
+}
+.content-right {
+    left: 100%;
+    bottom: -32px;
+}
+@media screen and (min-width: 769px) {
+    .timeline {
+        margin-top: 50px;
+    }
+}
+.timeline__container {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    background-color: #fafafa;
+}
+.timeline__container--pc {
+    padding: 25px;
 }
 
 </style>

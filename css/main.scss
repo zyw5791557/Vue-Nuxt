@@ -279,15 +279,15 @@ a {
 
 
 /* 过渡动效 */
-.page-enter-active,
-.page-leave-active {
-  transition: opacity .5s;
-}
+// .page-enter-active,
+// .page-leave-active {
+//   transition: opacity .3s;
+// }
 
-.page-enter,
-.page-leave-active {
-  opacity: 0;
-}
+// .page-enter,
+// .page-leave-active {
+//   opacity: 0;
+// }
 
 /* 即时查看 */
 

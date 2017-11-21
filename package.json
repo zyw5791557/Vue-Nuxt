@@ -11,7 +11,7 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "@xkeshi/vue-qrcode": "^0.3.0",
+    "@xkeshi/vue-qrcode": "0.3.0",
     "axios": "^0.17.1",
     "nuxt": "1.0.0-rc11"
   },
