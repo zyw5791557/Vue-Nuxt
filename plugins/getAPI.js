@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const localURL = 'http://localhost:3000';
+const localURL = 'http://localhost:8888';
 const baseUrl  = 'https://api.readhub.me/';
 
 let initParams = function(params) {
